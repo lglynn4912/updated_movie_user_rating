@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Movie Rating{% endblock %}
+
+{% block body %}
+<h1>{{ rating.movie.title }}</h1>
+
+<p>
+  {{ rating.user.email}}
+  <div>
+  Score: {{ rating.score }}
+  </div>
+</p>
+{% endblock %}
