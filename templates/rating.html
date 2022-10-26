@@ -7,8 +7,25 @@
 
 <p>
   {{ rating.user.email}}
-  <div>
+  <div id="user-id">{{rating.user_id}}</div>
+  <div id="movie-id"> {{ rating.movie_id }} </div>
+  
+  <div id="current-score">
   Score: {{ rating.score }}
   </div>
 </p>
+
+{% if 'user_id' in session %}
+<form action="/update_rating/{{ rating.movie_id}}", method = "POST", id="new-rate-input">
+    <label for="new-rate">Update movie rating</label>
+    <select name="new-rate" id="new-rate">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+    <button type="submit">Submit Your Rating</button>
+</form>
+{% endif %}
 {% endblock %}

@@ -79,7 +79,6 @@ def login_to_account():
     if user and user.password == password:
         session['user_id'] = user.user_id
 
-### check password matching after email comes back as in db, then login
     if session.get('user_id'):
         flash('You have successfully logged in')
     else:
@@ -88,12 +87,12 @@ def login_to_account():
     return redirect('/')
 
 
-@app.route('/movie/<movie_id>/rate')
+@app.route('/movie/<movie_id>/rate', methods = ['POST'])
 def rate_a_movie(movie_id):
     """Rate a movie"""
 
     user_id = session['user_id']
-    score = int(request.args.get("rate"))
+    score = int(request.form.get("rate"))
 
     rating = Rating(user_id = user_id, 
     movie_id=movie_id, 
@@ -103,6 +102,20 @@ def rate_a_movie(movie_id):
     db.session.commit()
 
     return render_template('rating.html', rating=rating)
+
+@app.route('/update_rating/<movie_id>')
+def update_rating(movie_id):
+ """Update rating after last rating"""
+ 
+    new_rate = request.form.get('new_rate')
+    user_id = session['user_id']
+
+    rating = db.session.query(Rating).filter(Rating.movie_id == movie_id, Rating.user_id == user_id).first()
+    rating.score = new_rate
+
+    db.session.commit()
+
+    return "Success"
 
 if __name__ == "__main__":
     connect_to_db(app)

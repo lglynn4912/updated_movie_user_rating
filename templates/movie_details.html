@@ -4,8 +4,8 @@
 
 {% block body %}
 
-{% if session['user_id'] %}
-<form action="/movie/{{ movie.movie_id }}/rate">
+{% if 'user_id' in session %}
+<form action="/movie/{{ movie.movie_id }}/rate", method = "POST">
     <label for="rate">Please pick a movie rating from 1 to 5</label>
     <select name="rate" id="rate">
         <option value="1">1</option>
